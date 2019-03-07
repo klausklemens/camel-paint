@@ -16,11 +16,10 @@ import android.view.View.OnTouchListener;
 public class DrawView extends View implements OnTouchListener {
 	private static final String TAG = "DrawView";
 	
-	List<Point> points = new ArrayList<Point>();
-	Paint paint = new Paint();
-	Random gen;
-	int col_mode;
-	int wid_mode;
+	private List<Point> points = new ArrayList<>();
+	private Paint paint = new Paint();
+	private int col_mode;
+	private int wid_mode;
 	
 	public DrawView(Context context) {
 		super(context);
@@ -33,14 +32,14 @@ public class DrawView extends View implements OnTouchListener {
 		
 		setFocusable(true);
 		setFocusableInTouchMode(true);
-		
-		this.setOnTouchListener(this);
+
+        this.setOnTouchListener(this);
 		
 		paint.setAntiAlias(true);
 	}
 	
 	// used to clear the screen
-	public void clearPoints () {
+    void clearPoints() {
 		points.clear();
 		forceRedraw();
 	}
@@ -48,17 +47,17 @@ public class DrawView extends View implements OnTouchListener {
 	/**
 	 * Force view to redraw. Without this points aren't cleared until next action
 	 */
-	public void forceRedraw() {
-		invalidate();
+    private void forceRedraw() {
+		this.invalidate();
 	}
 	
 	// used to set drawing colour
-	public void changeColour (int col_in) {
+    void changeColour(int col_in) {
 		col_mode = col_in;
 	}
 
 	// used to set drawing width
-	public void changeWidth (int wid_in) {
+    void changeWidth(int wid_in) {
 		wid_mode = wid_in;
 	}
 	
@@ -74,7 +73,7 @@ public class DrawView extends View implements OnTouchListener {
 	public boolean onTouch(View view, MotionEvent event) {
 		int new_col = 0;
 		if (col_mode < 0) {
-			gen = new Random();
+			Random gen = new Random();
 			col_mode = gen.nextInt( 8 );
 		}
 		// This if statement may be redundant now
@@ -114,10 +113,7 @@ public class DrawView extends View implements OnTouchListener {
 				}
 			}
 		}
-		/* else {
-			gen = new Random();
-			new_col = gen.nextInt( 8 );
-		} */
+
 		Point point;
 		if(event.getAction() == MotionEvent.ACTION_MOVE) {
 			point = new FriendlyPoint(event.getX(), event.getY(), new_col, points.get(points.size() - 1), wid_mode);	

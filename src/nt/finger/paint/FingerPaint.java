@@ -17,7 +17,7 @@ import android.view.WindowManager;
 
 public class FingerPaint extends Activity {
 	private static final String TAG = "FingerPaint";
-	DrawView drawView;
+	private DrawView drawView;
 	
     /** Called when the activity is first created. */
     @Override
@@ -149,7 +149,7 @@ public class FingerPaint extends Activity {
     	}
     }
     
-    void setCustomBackground(DrawView v) {
+    private void setCustomBackground(DrawView v) {
     	Intent fileChooserIntent = new Intent();
     	fileChooserIntent.addCategory(Intent.CATEGORY_OPENABLE);
     	fileChooserIntent.setType("image/*");
@@ -170,8 +170,8 @@ public class FingerPaint extends Activity {
     	{
 	    	Uri resultUri = data.getData();
 	    	//String resultString = data.getData().toString();
-	    	
-	    	String drawString = resultUri.getPath();
+
+			String drawString = resultUri.getPath();
 	    	String galleryString = getGalleryPath(resultUri);
 	    	
 	    	// if Gallery app was used

@@ -7,7 +7,7 @@ public class FriendlyPoint extends Point {
 	
 	private final Point neighbour;
 	
-	public FriendlyPoint(final float x, final float y, final int col, final Point neighbour, final int width) {
+	FriendlyPoint(final float x, final float y, final int col, final Point neighbour, final int width) {
 		super(x, y, col, width);
 		this.neighbour = neighbour;
 	}
@@ -20,7 +20,7 @@ public class FriendlyPoint extends Point {
 		// experimenting with smoother drawing --
 		// the circle should hopefully act as a smoothing hinge between line segments
 		// o----o----o------o
-		canvas.drawCircle(x, y, width/2, paint);
+		canvas.drawCircle(x, y, (float) width/2, paint);
 	}
 	
 	@Override

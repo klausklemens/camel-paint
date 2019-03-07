@@ -4,11 +4,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 public class Point {
-	public final float x, y;
-	public final int col;
-	public final int width;
+	final float x, y;
+	final int col;
+	final int width;
 	
-	public Point(final float x, final float y, final int col, final int width) {
+	Point(final float x, final float y, final int col, final int width) {
 		this.x = x;
 		this.y = y;
 		this.col = col;
@@ -17,7 +17,7 @@ public class Point {
 	
 	public void draw(final Canvas canvas, final Paint paint) {
 		paint.setColor(col);
-		canvas.drawCircle(x, y, width/2, paint);
+		canvas.drawCircle(x, y, (float) width/2, paint);
 	}
 	
 	@Override
