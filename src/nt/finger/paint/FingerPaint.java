@@ -3,7 +3,10 @@ package nt.finger.paint;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,11 +17,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
+import java.io.InputStream;
+import java.net.URL;
+
+import static android.app.PendingIntent.getActivity;
 
 public class FingerPaint extends Activity {
 	private static final String TAG = "FingerPaint";
 	private DrawView drawView;
-	
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,26 +35,27 @@ public class FingerPaint extends Activity {
         // Set full screen view
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
+
         // lock screen orientation (stops screen clearing when rotating phone)
         setRequestedOrientation(getResources().getConfiguration().orientation);
-        
+
         drawView = new DrawView(this);
         setContentView(drawView);
         drawView.setBackgroundColor(Color.BLACK);
         drawView.requestFocus();
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();
     	inflater.inflate(R.menu.paint_menu, menu);
     	return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	// Handle item selection
+		Log.d("BAD", (String) item.getTitle());
     	switch (item.getItemId()) {
     	case R.id.clear_id : {
     		drawView.clearPoints();
@@ -144,25 +154,20 @@ public class FingerPaint extends Activity {
     		return true;
     	}
     	default : {
+    	    Log.d("BAD", (String) item.getTitle());
     		return true;
     	}
     	}
     }
-    
+
     private void setCustomBackground(DrawView v) {
-    	Intent fileChooserIntent = new Intent();
+        Intent fileChooserIntent = new Intent();
     	fileChooserIntent.addCategory(Intent.CATEGORY_OPENABLE);
     	fileChooserIntent.setType("image/*");
     	fileChooserIntent.setAction(Intent.ACTION_GET_CONTENT);
     	startActivityForResult(Intent.createChooser(fileChooserIntent, "Select Picture"), 1);
-    	/*
-    	// menu option for setting a custom background
-    	String Url = "http://www.google.ca";	// http://www.google.ca
-    	Intent fileChooserIntent = new Intent(Intent.ACTION_CHOOSER, Uri.parse(Url));
-    	this.startActivity(fileChooserIntent);
-    	*/
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	// if statement prevents force close error when picture isn't selected
@@ -173,7 +178,7 @@ public class FingerPaint extends Activity {
 
 			String drawString = resultUri.getPath();
 	    	String galleryString = getGalleryPath(resultUri);
-	    	
+
 	    	// if Gallery app was used
 	    	if (galleryString != null)
 	    	{
@@ -191,30 +196,40 @@ public class FingerPaint extends Activity {
 		    		drawString = drawString.substring(drawString.lastIndexOf("//"));
 		    	}
 	    	}
-	    	
+
 	    	// set the background to the selected picture
 	    	if (drawString.length() > 0)
 	    	{
-	    		Drawable drawBackground = Drawable.createFromPath(drawString);
-	    		drawView.setBackgroundDrawable(drawBackground);
-	    	}
-	    	
+	    	    Log.d(TAG, "set it now :D");
+
+                try {
+                    InputStream is = new URL("/storage/emulated/0/Download/maxresdefault.jpg").openStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    BitmapDrawable bd = new BitmapDrawable(getResources(), bitmap);
+                    drawView.setBackgroundDrawable(bd);
+                } catch (Exception e) {
+                    Log.d(TAG, e.getMessage());
+                    Log.d(TAG, e.getLocalizedMessage());
+                    Log.d(TAG, e.getCause().toString());
+                }
+            }
+
     	}
     }
-    
+
     // used when trying to get an image path from the URI returned by the Gallery app
     public String getGalleryPath(Uri uri) {
     	String[] projection = { MediaStore.Images.Media.DATA };
     	Cursor cursor = managedQuery(uri, projection, null, null, null);
-    	
+
     	if (cursor != null)
     	{
     		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
     		cursor.moveToFirst();
     		return cursor.getString(column_index);
     	}
-    	
-    	
+
+
     	return null;
     }
 
