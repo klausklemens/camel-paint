@@ -165,8 +165,7 @@ public class FingerPaint extends Activity {
     	fileChooserIntent.addCategory(Intent.CATEGORY_OPENABLE);
     	fileChooserIntent.setType("image/*");
     	fileChooserIntent.setAction(Intent.ACTION_GET_CONTENT);
-    	startActivityForResult(Intent.createChooser(fileChooserIntent, "Select Picture"), 1);
-    }
+    	startActivityForResult(Intent.createChooser(fileChooserIntent, "Select Picture"), 1);    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
