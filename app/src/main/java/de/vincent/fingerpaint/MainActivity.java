@@ -7,14 +7,16 @@ import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private static final
 
     AlertDialog.Builder dialog;
+    //DrawView drawView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -22,12 +24,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.background:
                     return false;
-                case R.id.navigation_dashboard:
+                case R.id.brush_size:
                     return false;
-                case R.id.navigation_notifications:
+                case R.id.brush_color:
                     dialog.show();
+                    return false;
+                case R.id.clear:
                     return false;
             }
             return false;
@@ -44,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.getMenu().getItem(0).setCheckable(false);
 
+        DrawView drawView = (DrawView) findViewById(R.id.drawViewCanvas);
+        Log.d("lol", drawView.toString());
+        drawView.clearPoints();
 
         String[] colors = {"red", "green", "blue", "black"};
 
