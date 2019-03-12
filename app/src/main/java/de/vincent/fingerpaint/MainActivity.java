@@ -1,5 +1,7 @@
 package de.vincent.fingerpaint;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -10,6 +12,9 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+    private static final
+
+    AlertDialog.Builder dialog;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -22,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_dashboard:
                     return false;
                 case R.id.navigation_notifications:
+                    dialog.show();
                     return false;
             }
             return false;
@@ -39,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
         navigation.getMenu().getItem(0).setCheckable(false);
 
 
+        String[] colors = {"red", "green", "blue", "black"};
+
+        dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Pick a color");
+        dialog.setItems(colors, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // the user clicked on colors[which]
+            }
+        });
     }
 
 }
