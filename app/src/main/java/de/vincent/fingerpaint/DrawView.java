@@ -14,55 +14,40 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 public class DrawView extends View implements View.OnTouchListener {
-    private static final String TAG = "DrawView";
-
-    List<Point> points = new ArrayList<>();
+    Stack<Point> points = new Stack<>();
     Paint paint = new Paint();
-    Random gen;
-    int col_mode;
-    int wid_mode;
+    Random gen = new Random();
+    private int color;
+    private int width;
 
     @SuppressLint("ClickableViewAccessibility")
     public DrawView(Context context, @Nullable AttributeSet attrs) {
-        super(context);
+        super(context, attrs);
 
-        // set default colour to white
-        col_mode = Color.BLACK;
-
-        // set default width to 7px
-        wid_mode = 10;
+        this.paint.setAntiAlias(true);
+        this.color = 0;
+        this.width = 10; // set default width to 7px
 
         setFocusable(true);
         setFocusableInTouchMode(true);
-
         this.setOnTouchListener(this);
-
-        paint.setAntiAlias(true);
     }
 
-    // used to clear the screen
-    public void clearPoints () {
+    public void clearPoints() {
         points.clear();
-        forceRedraw();
-    }
-
-    /**
-     * Force view to redraw. Without this points aren't cleared until next action
-     */
-    public void forceRedraw() {
         invalidate();
     }
 
-    // used to set drawing colour
-    public void changeColour (int col_in) {
-        col_mode = col_in;
+    public void setBrushColor(int color) {
+        this.color = color;
+        Log.d("COLOR", "neue Farbe: " + this.color);
     }
 
-    // used to set drawing width
-    public void changeWidth (int wid_in) {
-        wid_mode = wid_in;
+    public void setBrushWidth(int width) {
+        this.width = width;
     }
 
     @Override
@@ -70,69 +55,27 @@ public class DrawView extends View implements View.OnTouchListener {
         // for each point, draw on canvas
         for (Point point : points) {
             point.draw(canvas, paint);
-            Log.d(TAG, "pointcount: " + points.size());
         }
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int new_col = 0;
-        if (col_mode < 0) {
-            gen = new Random();
-            col_mode = gen.nextInt( 8 );
+        Log.d("COLOR", "Farbe: " + color);
+        if (color == 0) {
+            Log.d("COLOR", "Farbupdate");
+            color = Color.rgb(gen.nextInt(0xFF), gen.nextInt(0xFF), gen.nextInt(0xFF));
         }
-        // This if statement may be redundant now
-        if (col_mode >= 0) {
-            switch (col_mode) {
-                case 0 : {
-                    new_col = Color.WHITE;
-                    break;
-                }
-                case 1 : {
-                    new_col = Color.BLUE;
-                    break;
-                }
-                case 2 : {
-                    new_col = Color.CYAN;
-                    break;
-                }
-                case 3 : {
-                    new_col = Color.GREEN;
-                    break;
-                }
-                case 4 : {
-                    new_col = Color.MAGENTA;
-                    break;
-                }
-                case 5 : {
-                    new_col = Color.RED;
-                    break;
-                }
-                case 6 : {
-                    new_col = Color.YELLOW;
-                    break;
-                }
-                case 7 : {
-                    new_col = Color.BLACK;
-                    break;
-                }
-            }
-        }
-		/* else {
-			gen = new Random();
-			new_col = gen.nextInt( 8 );
-		} */
-        Point point;
-        if(event.getAction() == MotionEvent.ACTION_MOVE) {
-            point = new FriendlyPoint(event.getX(), event.getY(), new_col, points.get(points.size() - 1), wid_mode);
+
+        if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            points.push(new Point(event.getX(), event.getY(), color, width, points.peek()));
         } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            point = new Point(event.getX(), event.getY(), new_col, wid_mode);
+            points.push(new Point(event.getX(), event.getY(), color, width, null));
         } else {
             return false;
         }
-        points.add(point);
-        forceRedraw();
-        Log.d(TAG, "point: " + point);
+
+        // Redraw
+        invalidate();
         return true;
     }
 }

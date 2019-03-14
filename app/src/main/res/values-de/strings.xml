@@ -5,4 +5,22 @@
     <string name="c_brush_size">Größe</string>
     <string name="clear">Leeren</string>
     <string name="app_name">Finger-farben</string>
+    <string name="white">Weiß</string>
+    <string name="black">Schwarz</string>
+    <string name="blue">Blau</string>
+    <string name="cyan">Cyan</string>
+    <string name="green">Grün</string>
+    <string name="magenta">Magenta</string>
+    <string name="red">Rot</string>
+    <string name="yellow">Gelb</string>
+    <string name="random">Zufällig</string>
+    <string name="image">Bild</string>
+    <string name="pick_brush_color">Wähle eine Pinsel-farbe</string>
+    <string name="pick_brush_size">Wähle eine Pinsel-größe</string>
+    <string name="pick_background">Wähle einen Hintergrund</string>
+    <string name="size_s">Klein</string>
+    <string name="size_m">Mittel</string>
+    <string name="size_l">Groß</string>
+    <string name="size_xl">Sehr groß</string>
+    <string name="size_xs">Sehr klein</string>
 </resources>

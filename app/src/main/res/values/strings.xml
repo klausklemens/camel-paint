@@ -4,4 +4,22 @@
     <string name="c_brush_color">Ink</string>
     <string name="c_brush_size">Size</string>
     <string name="clear">Clear</string>
+    <string name="white">White</string>
+    <string name="black">Black</string>
+    <string name="blue">Blue</string>
+    <string name="cyan">Cyan</string>
+    <string name="green">Green</string>
+    <string name="magenta">Magenta</string>
+    <string name="red">Red</string>
+    <string name="yellow">Yellow</string>
+    <string name="random">Random</string>
+    <string name="image">Image</string>
+    <string name="pick_brush_color">Pick a Brush Color</string>
+    <string name="pick_brush_size">Pick a Brush Size</string>
+    <string name="size_xs">Extra Small</string>
+    <string name="size_s">Small</string>
+    <string name="size_m">Medium</string>
+    <string name="size_l">Large</string>
+    <string name="size_xl">Extra Large</string>
+    <string name="pick_background">Pick a Background</string>
 </resources>
