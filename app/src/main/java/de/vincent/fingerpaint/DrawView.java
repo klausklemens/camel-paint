@@ -28,12 +28,14 @@ public class DrawView extends View implements View.OnTouchListener {
         super(context, attrs);
 
         this.paint.setAntiAlias(true);
-        this.color = 0;
-        this.width = 10; // set default width to 7px
 
         setFocusable(true);
         setFocusableInTouchMode(true);
         this.setOnTouchListener(this);
+
+        this.setBackgroundColor(0);
+        this.setBrushColor(Color.BLACK);
+        this.setBrushWidth(10);
     }
 
     public void clearPoints() {
@@ -43,7 +45,6 @@ public class DrawView extends View implements View.OnTouchListener {
 
     public void setBrushColor(int color) {
         this.color = color;
-        Log.d("COLOR", "neue Farbe: " + this.color);
     }
 
     public void setBrushWidth(int width) {
@@ -56,11 +57,12 @@ public class DrawView extends View implements View.OnTouchListener {
         for (Point point : points) {
             point.draw(canvas, paint);
         }
+
+
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Log.d("COLOR", "Farbe: " + color);
         if (color == 0) {
             Log.d("COLOR", "Farbupdate");
             color = Color.rgb(gen.nextInt(0xFF), gen.nextInt(0xFF), gen.nextInt(0xFF));

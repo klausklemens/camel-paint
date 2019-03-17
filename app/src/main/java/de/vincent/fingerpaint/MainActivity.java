@@ -5,11 +5,14 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        BottomNavigationViewHelper.removeShiftMode(navigation);
         navigation.getMenu().getItem(0).setCheckable(false);
 
         drawView = findViewById(R.id.drawViewCanvas);
-        drawView.setBackgroundColor(Color.RED);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -48,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
                     brush_size_helper();
                     return false;
                 case R.id.clear:
-                    drawView.setBackgroundColor(Color.WHITE);
+                    drawView.setBackgroundColor(0);
+                    drawView.setBrushColor(Color.BLACK);
+                    drawView.setBrushWidth(10);
                     drawView.clearPoints();
                     return false;
             }
@@ -79,24 +84,37 @@ public class MainActivity extends AppCompatActivity {
                 switch (which) {
                     case 0:
                         drawView.setBackgroundColor(Color.WHITE);
+                        break;
                     case 1:
                         drawView.setBackgroundColor(Color.BLUE);
+                        break;
                     case 2:
                         drawView.setBackgroundColor(Color.CYAN);
+                        break;
                     case 3:
                         drawView.setBackgroundColor(Color.GREEN);
+                        break;
                     case 4:
                         drawView.setBackgroundColor(Color.MAGENTA);
+                        break;
                     case 5:
                         drawView.setBackgroundColor(Color.RED);
+                        break;
                     case 6:
                         drawView.setBackgroundColor(Color.YELLOW);
+                        break;
                     case 7:
                         drawView.setBackgroundColor(Color.BLACK);
+                        break;
                     case 8:
                         drawView.setBackgroundColor(0);
+                        break;
                     case 9:
-                        // TODO: background image
+                        Toast.makeText(getApplicationContext(), "null", Toast.LENGTH_SHORT).show();
+                        // TODO: implement background image
+                        break;
+                    default:
+                        drawView.setBackgroundColor(0);
                 }
             }
         });
@@ -104,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void brush_color_helper() {
+        Log.d(TAG, "Do color");
         String[] colors = {
                 getResources().getString(R.string.white),
                 getResources().getString(R.string.blue),
@@ -125,22 +144,33 @@ public class MainActivity extends AppCompatActivity {
                 switch (which) {
                     case 0:
                         drawView.setBrushColor(Color.WHITE);
+                        break;
                     case 1:
                         drawView.setBrushColor(Color.BLUE);
+                        break;
                     case 2:
                         drawView.setBrushColor(Color.CYAN);
+                        break;
                     case 3:
                         drawView.setBrushColor(Color.GREEN);
+                        break;
                     case 4:
                         drawView.setBrushColor(Color.MAGENTA);
+                        break;
                     case 5:
                         drawView.setBrushColor(Color.RED);
+                        break;
                     case 6:
                         drawView.setBrushColor(Color.YELLOW);
+                        break;
                     case 7:
                         drawView.setBrushColor(Color.BLACK);
+                        break;
                     case 8:
                         drawView.setBrushColor(0);
+                        break;
+                    default:
+                        drawView.setBrushColor(Color.BLACK);
                 }
             }
         });
@@ -164,14 +194,21 @@ public class MainActivity extends AppCompatActivity {
                 switch (which) {
                     case 0:
                         drawView.setBrushWidth(0);
+                        break;
                     case 1:
                         drawView.setBrushWidth(5);
+                        break;
                     case 2:
                         drawView.setBrushWidth(10);
+                        break;
                     case 3:
                         drawView.setBrushWidth(15);
+                        break;
                     case 4:
                         drawView.setBrushWidth(20);
+                        break;
+                    default:
+                        drawView.setBrushWidth(10);
                 }
             }
         });
