@@ -5,12 +5,12 @@ import android.graphics.Paint;
 import android.support.annotation.Nullable;
 
 public class Point {
-    private final float x;
-    private final float y;
-    private final int col;
-    private final int width;
+    final float x;
+    final float y;
+    final int col;
+    final int width;
 
-    private final Point neighbour;
+    final Point neighbour;
 
     Point(final float x, final float y, final int col, final int width, @Nullable final Point neighbour) {
         this.x = x;
