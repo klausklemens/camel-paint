@@ -20,13 +20,12 @@ public class Point {
         this.neighbour = neighbour;
     }
 
-    public void draw(final Canvas canvas, final Paint paint) {
+    void draw(final Canvas canvas, final Paint paint) {
         paint.setColor(col);
         paint.setStrokeWidth(width);
+        canvas.drawCircle(x, y, (float) width / 2, paint);
         if (neighbour != null) {
             canvas.drawLine(x, y, neighbour.x, neighbour.y, paint);
-        } else {
-            canvas.drawCircle(x, y, (float) width / 2, paint);
         }
     }
 

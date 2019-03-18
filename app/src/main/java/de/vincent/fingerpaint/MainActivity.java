@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "Painter";
 
-    DrawView drawView;
+    private DrawView drawView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
